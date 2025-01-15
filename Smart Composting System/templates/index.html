@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Compost System</title>
+    <link rel="stylesheet" href="../static/styles/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Added Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Add these styles for the shop button */
+        .shop-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .shop-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <!-- Added Shop Button -->
+    <a href="/shop" class="shop-button">
+        <i class="fas fa-shopping-cart"></i>
+        Visit Shop
+    </a>
+
+    <div class="loading"></div>
+    <div class="container">
+        <a href="http://localhost:3000/landing/" class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg">
+            <i class="fas fa-arrow-left mr-2"></i> Back
+        </a>
+        <h1>Smart Compost System</h1>
+        <form id="item-form">
+            <div class="form-group">
+                <label for="item">Item:</label>
+                <input list="items" id="item" name="item" required placeholder="Select item">
+                <datalist id="items">
+                    {% for item in valid_items %}
+                        <option value="{{ item }}"></option>
+                    {% endfor %}
+                </datalist>
+            </div>
+            <div class="form-group">
+                <label for="weight">Weight (kg):</label>
+                <input type="number" id="weight" name="weight" step="0.01" required placeholder="Enter weight">
+            </div>
+            <button type="submit">Add Item</button>
+        </form>
+
+        <h2>Added Items</h2>
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Weight (kg)</th>
+                </tr>
+            </thead>
+            <tbody id="added-items">
+            </tbody>
+        </table>
+
+        <button id="predict-btn">Smart Compost Prediction</button>
+        <h2>Prediction Results</h2>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        let addedItems = [];
+        
+        // Show/hide loading animation
+        function toggleLoading(show) {
+            $('.loading').css('display', show ? 'block' : 'none');
+        }
+        
+        // Initialize
+        $(document).ready(function() {
+            toggleLoading(false);
+        });
+        
+        $('#item-form').submit(function(event) {
+            event.preventDefault();
+            const item = $('#item').val();
+            const weight = $('#weight').val();
+            
+            toggleLoading(true);
+            
+            $.post('/add_item', { item: item, weight: weight }, function(data) {
+                if (data.status === 'success') {
+                    const itemClass = data.itemClass === 'Green' ? 'green-item' : 'brown-item';
+                    const newRow = $(`
+                        <tr class="${itemClass}" style="opacity: 0; transform: translateX(-20px)">
+                            <td>${data.item}</td>
+                            <td>${data.weight} kg</td>
+                        </tr>
+                    `);
+                    
+                    $('#added-items').append(newRow);
+                    newRow.animate({
+                        opacity: 1,
+                        transform: 'translateX(0)'
+                    }, 300);
+                    
+                    addedItems.push({ item: data.item, weight: parseFloat(data.weight) });
+                    $('#item').val('').focus();
+                    $('#weight').val('');
+                } else {
+                    alert(data.message);
+                }
+                toggleLoading(false);
+            });
+        });
+
+        $('#predict-btn').click(function() {
+            if (addedItems.length < 2) {
+                const resultCard = $(`
+                    <div class="result-card">
+                        <div class="result-main">Please add at least two items for prediction</div>
+                    </div>
+                `);
+                $('#results').empty().append(resultCard);
+                return;
+            }
+            
+            toggleLoading(true);
+            
+            $.ajax({
+                url: '/predict',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ items: addedItems }),
+                success: function(data) {
+                    $('#results').empty();
+                    if (data.status === 'success') {
+                        data.results.forEach((result, index) => {
+                            const resultCard = $(`
+                                <div class="result-card" style="opacity: 0; transform: translateY(20px)">
+                                    <div class="result-main">
+                                        Combination ${index + 1}: ${result.green_item} + ${result.brown_item}
+                                    </div>
+                                    <div class="result-details">
+                                        <div class="detail-item">
+                                            <strong>Green Material:</strong><br>
+                                            ${result.green_item} (${result.green_weight.toFixed(2)} kg)
+                                        </div>
+                                        <div class="detail-item">
+                                            <strong>Brown Material:</strong><br>
+                                            ${result.brown_item} (${result.brown_weight.toFixed(2)} kg)
+                                        </div>
+                                        <div class="detail-item">
+                                            <strong>Expected Compost:</strong><br>
+                                            ${result.compost_weight.toFixed(2)} kg
+                                        </div>
+                                        <div class="detail-item">
+                                            <strong>Remaining Materials:</strong><br>
+                                            Green: ${result.remaining_green.toFixed(2)} kg<br>
+                                            Brown: ${result.remaining_brown.toFixed(2)} kg
+                                        </div>
+                                    </div>
+                                </div>
+                            `);
+                            
+                            $('#results').append(resultCard);
+                            setTimeout(() => {
+                                resultCard.animate({
+                                    opacity: 1,
+                                    transform: 'translateY(0)'
+                                }, 300);
+                            }, index * 100);
+                        });
+                    } else {
+                        const errorCard = $(`
+                            <div class="result-card">
+                                <div class="result-main">${data.message}</div>
+                            </div>
+                        `);
+                        $('#results').append(errorCard);
+                    }
+                    toggleLoading(false);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

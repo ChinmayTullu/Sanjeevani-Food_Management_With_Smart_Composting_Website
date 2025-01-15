@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanjeevni</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .login-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .toggle-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .toggle-button img {
+            width: 24px;
+            height: 24px;
+        }
+
+    </style>
+</head>
+<body>
+    
+    <section class="circular-slider">
+        <a href="http://localhost:3000/">
+            <button class="login-button">Log In</button>
+        </a>
+        
+        <!-- Tree Button Added -->
+        <button class="toggle-button">
+             <!-- Replace 'tree-icon.png' with your actual image path -->
+            <a href="index2.html"><img src="img/tree.png" alt="Tree Icon" ></a>
+            
+        </button>
+
+        <div class="text">
+            <h1>Global Food Waste</h1>
+            <p>
+                One-third of food is wasted globally: Around 1.3 billion tons of food are wasted every year, according to the Food and Agriculture Organization (FAO).
+                25% of the world's freshwater supply is used to produce food that is never eaten.
+            </p>
+        </div>
+        <div class="text">
+            <h1>Food Insecurity</h1>
+            <p>
+                Hunger persists amid waste: Nearly 828 million people globally suffer from hunger, yet a significant portion of food is wasted.
+                Wasted calories: The food wasted globally could feed 3 billion people annually, reducing food insecurity.
+            </p>
+        </div>
+        <div class="text">
+            <h1>Household Waste</h1>
+            <p>
+                Households are major contributors: In the U.S., households account for 43% of food waste, wasting about 30-40% of the food supply.
+                Food waste per person: On average, each person wastes 121 kilograms (267 pounds) of food annually.
+            </p>
+        </div>
+        <div class="text">
+            <h1>Environmental Impact</h1>
+            <p>
+                Land use: Approximately 30% of agricultural land is used to grow food that is ultimately wasted.
+                Methane production: When food waste ends up in landfills, it produces methane, a greenhouse gas that is 25 times more potent than CO₂.
+            </p>
+        </div>
+        <div class="text">
+            <h1>Solutions and Actions</h1>
+            <p>
+                Education reduces waste: Public awareness campaigns can reduce food waste by 20-30% in some regions.
+                Tech solutions: Apps like Too Good To Go and Olio connect consumers to surplus food to reduce waste.
+            </p>
+        </div>
+        <div class="slider">
+            <div class="indicator"></div>
+            <div class="menu">
+                <div>
+                    <span>Global Wastage</span>
+                </div>
+                <div>
+                    <span>Food Insecurity</span>
+                </div>
+                <div>
+                    <span>Household Waste</span>
+                </div>
+                <div>
+                    <span>Donations</span>
+                </div>
+                <div>
+                    <span>Solutions</span>
+                </div>
+            </div>
+            <div class="img"></div>
+        </div>
+    </section>
+
+</body>
+
+<script>
+const slider = document.querySelector(".circular-slider");
+const img = document.querySelector(".slider .img");
+const indicator = document.querySelector(".indicator");
+const menuItems = document.querySelectorAll(".menu span");
+const descriptions = document.querySelectorAll(".text");
+const loginButton = document.querySelector(".login-button");
+
+const rotationValues = [-58, -32, 0, 32, 58];
+const colors = [
+    "radial-gradient(#a74255, #440412)",
+    "radial-gradient(#ff4b5f, #a40b16)",
+    "radial-gradient(#fdb76d, #f08a00)",
+    "radial-gradient(#849ade, #43295f)",
+    "radial-gradient(#e7ad59, #883e2a)",
+];
+const textColors = [
+    "#440412", // Corresponding text color for first slide
+    "#a40b16", // Second slide
+    "#f08a00", // Third slide
+    "#43295f", // Fourth slide
+    "#883e2a", // Fifth slide
+];
+
+let itemindex = 0;
+let rotationCounter = 0;
+const maxRotations = 50;
+
+function rotate(rotationValue) {
+    img.style.transform = `rotate(${rotationValue}deg)`;
+    indicator.style.transform = `translate(-50%, -50%) rotate(${rotationValue}deg)`;
+}
+
+function updateSlide(index) {
+    img.style.backgroundImage = `url(img/img${index + 1}.png)`;
+    slider.style.background = colors[index];
+    loginButton.style.color = textColors[index];
+
+    rotate(rotationValues[index]);
+
+    descriptions.forEach((text) => {
+        text.style.display = "none";
+    });
+    descriptions[index].style.display = "block";
+
+    itemindex = index;
+}
+
+function autoSlide() {
+    if (rotationCounter < maxRotations) {
+        const nextIndex = (itemindex + 1) % menuItems.length;
+        updateSlide(nextIndex);
+        rotationCounter++;
+    } else {
+        clearInterval(sliderInterval);
+    }
+}
+
+let sliderInterval = setInterval(autoSlide, 1500);
+</script>
+</html>

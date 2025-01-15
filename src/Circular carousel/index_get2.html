@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .login-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+            .toggle-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .toggle-button img {
+            width: 24px;
+            height: 24px;
+        }
+    </style>
+</head>
+<body>
+    
+    <section class="circular-slider">
+        <button class="toggle-button">
+            <!-- Replace 'tree-icon.png' with your actual image path -->
+           <a href="index.html"><img src="img/tomato.png" alt="Tree Icon" ></a>
+           
+       </button>
+        
+
+        <a href="http://127.0.0.1:5005/">
+            <button class="login-button">Get Started</button>
+        </a>
+            <div class="text">
+                <h1>Manure</h1>
+                <p>
+                    Manure enriches soil with essential nutrients like nitrogen and potassium, improving fertility naturally.
+It enhances soil structure, retains moisture, and reduces reliance on chemical fertilizers.
+Manure promotes beneficial microorganisms, fostering healthier and more productive soil.
+
+                </p>
+            </div>
+            <div class="text">
+                <h1>Compost</h1>
+                <p>
+                    Compost recycles organic waste into nutrient-rich material that boosts plant health.
+It reduces landfill waste, cuts methane emissions, and improves soil structure.
+Compost acts as a natural pest deterrent while lowering your carbon footprint.
+                </p>
+            </div>
+            <div class="text">
+                <h1>Fertilizers</h1>
+                <p>
+                    Fertilizers supply plants with key nutrients like nitrogen, phosphorus, and potassium.
+They improve crop yields and can be tailored to specific plant and soil needs.
+Organic and synthetic fertilizers ensure healthy growth and promote food security.
+                </p>
+            </div>
+            <div class="text">
+                <h1>Organic Soil
+                </h1>
+                <p>
+                    Organic soil is enriched with natural matter like compost and manure, boosting fertility and plant health.
+It enhances water retention, promotes root growth, and supports beneficial microorganisms.
+
+                </p>
+            </div>
+            <div class="text">
+                <h1>Environment Benifits</h1>
+                <p>
+                    Compost and manure reduce dependence on synthetic fertilizers, protecting ecosystems.
+They decrease greenhouse gas emissions and groundwater contamination.
+By fostering biodiversity, they contribute to a sustainable and regenerative agriculture system.
+                   
+                </p>
+            </div>
+            <div class="slider">
+                <div class="indicator"></div>
+                <div class="menu">
+                    <div>
+                        <span>Manure</span>
+                    </div>
+                    <div>
+                        <span>Compost</span>
+                    </div>
+                    <div>
+                        <span>Fertilizers</span>
+                    </div>
+                    <div>
+                        <span>Organic Soil</span>
+                    </div>
+                    <div>
+                        <span>Environment Benifits </span>
+                    </div>
+                </div>
+                <div class="img" style="background-image: url(img/img5.png)"></div>
+            </div>
+        </div>
+    </section>
+
+</body>
+<script>
+const slider = document.querySelector(".circular-slider");
+const img = document.querySelector(".slider .img");
+const indicator = document.querySelector(".indicator");
+const menuItems = document.querySelectorAll(".menu span");
+const descriptions = document.querySelectorAll(".text");
+const loginButton = document.querySelector(".login-button");
+
+const rotationValues = [-58, -32, 0, 32, 58];
+const colors = [
+    "radial-gradient(#e7ad59, #883e2a)",
+    "radial-gradient(#4a4a4a,#19001d)",
+    "radial-gradient( #f08a00,#9b6446)",
+    "radial-gradient(#0b5e2c,#002302)",
+    
+    
+    "radial-gradient(#b0007e,#5c016a)",
+];
+const textColors = [
+    "#440412", // Corresponding text color for first slide
+    "#a40b16", // Second slide
+    "#f08a00", // Third slide
+    "#43295f", // Fourth slide
+    "#883e2a", // Fifth slide
+];
+
+let itemindex = 0;
+let rotationCounter = 0;
+const maxRotations = 50;
+
+function rotate(rotationValue) {
+    img.style.transform = `rotate(${rotationValue}deg)`;
+    indicator.style.transform = `translate(-50%, -50%) rotate(${rotationValue}deg)`;
+}
+
+function updateSlide(index) {
+    img.style.backgroundImage = `url(img/img${index + 6}.png)`; // Updated to start from img6.png
+    slider.style.background = colors[index];
+    loginButton.style.color = textColors[index];
+
+    rotate(rotationValues[index]);
+
+    descriptions.forEach((text) => {
+        text.style.display = "none";
+    });
+    descriptions[index].style.display = "block";
+
+    itemindex = index;
+}
+
+function autoSlide() {
+    if (rotationCounter < maxRotations) {
+        const nextIndex = (itemindex + 1) % menuItems.length;
+        updateSlide(nextIndex);
+        rotationCounter++;
+    } else {
+        clearInterval(sliderInterval);
+    }
+}
+
+let sliderInterval = setInterval(autoSlide, 1500);
+
+</script>
+</html>

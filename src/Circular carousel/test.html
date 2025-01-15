@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Light and Dark Mode Toggle</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toggle-button {
+            width: 60px;
+            height: 30px;
+            background-color: #ccc;
+            border-radius: 50px;
+            position: relative;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .toggle-button.light {
+            background-color: #ffdd57;
+        }
+
+        .toggle-button.dark {
+            background-color: #333;
+        }
+
+        .toggle-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: white;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: left 0.3s ease;
+        }
+
+        .toggle-icon.light {
+            left: 5px;
+        }
+
+        .toggle-icon.dark {
+            left: 35px;
+        }
+
+        .toggle-label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="toggle-container">
+        <div>
+            <span class="toggle-label">Light</span>
+            <button class="toggle-button light">
+                <div class="toggle-icon light"></div>
+            </button>
+        </div>
+        <div>
+            <span class="toggle-label">Dark</span>
+            <button class="toggle-button dark">
+                <div class="toggle-icon dark"></div>
+            </button>
+        </div>
+    </div>
+</body>
+</html>

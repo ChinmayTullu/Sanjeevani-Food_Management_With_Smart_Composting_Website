@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compost Shop</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .carousel-item {
+            display: none;
+        }
+        .carousel-item.active {
+            display: block;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-white">
+    <!-- Navigation Bar -->
+    <nav class="bg-white border-b border-gray-200 fixed w-full z-50">
+        <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold text-green-700">🌱 Sanjeevani</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <a href="{{ url_for('index') }}" class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg">
+                        <i class="fas fa-arrow-left mr-2"></i> Back
+                    </a>
+                    <button class="p-2 hover:bg-gray-100 rounded-full">
+                        <i class="fas fa-shopping-cart text-gray-600"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="pt-16">
+        <!-- Featured Categories -->
+        <div class="max-w-screen-xl mx-auto px-4 py-8">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800">🌱 Featured Categories</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-orange-50 rounded-lg p-6 text-center hover:shadow-lg transition-shadow">
+                    <i class="fas fa-seedling text-4xl text-green-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold">Garden Compost</h3>
+                </div>
+                <div class="bg-green-50 rounded-lg p-6 text-center hover:shadow-lg transition-shadow">
+                    <i class="fas fa-leaf text-4xl text-orange-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold">Plant Manure</h3>
+                </div>
+                <div class="bg-yellow-50 rounded-lg p-6 text-center hover:shadow-lg transition-shadow">
+                    <i class="fas fa-spa text-4xl text-brown-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold">Organic Fertilizers</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="max-w-screen-xl mx-auto px-4 py-8">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800">🛍️ Our Products</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Product Card 1 -->
+                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src="https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcTp_AvpM80Y6tcnoS7XIRcmbRyVrIQWQlutaYyRNqgcDw-t9NF-5aE6XMzEoO6JElE56jhbaYy4EMC_2JmsJ_K0cFrbp63MbxIRtQmd-BbZ" alt="Premium Compost" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Bestseller</span>
+                            <span class="text-gray-500">⭐ 4.8 (256)</span>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2">Premium Garden Compost</h3>
+                        <p class="text-gray-600 text-sm mb-4">Enriched with natural nutrients for healthy plant growth 🌱</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xl font-bold text-green-700">₹299</span>
+                            <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 2 -->
+                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src="https://www.bombaygreens.com/cdn/shop/products/CowManure-3x4-01.jpg?v=1678778921" alt="Organic Manure" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="bg-orange-100 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded">New</span>
+                            <span class="text-gray-500">⭐ 4.6 (128)</span>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2">Organic Cow Manure</h3>
+                        <p class="text-gray-600 text-sm mb-4">100% natural fertilizer for organic farming 🐮</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xl font-bold text-green-700">₹199</span>
+                            <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 3 -->
+                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src="https://rukminim2.flixcart.com/image/850/1000/kmns7m80/soil-manure/z/t/n/premium-vermicompost-100-pure-organic-wormcompost-for-all-type-original-imagfgz2mphz4jam.jpeg?q=20&crop=false" alt="Vermicompost" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded">Sale</span>
+                            <span class="text-gray-500">⭐ 4.9 (189)</span>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2">Premium Vermicompost</h3>
+                        <p class="text-gray-600 text-sm mb-4">Earthworm-processed for maximum nutrients 🪱</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xl font-bold text-green-700">₹399</span>
+                            <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 4 -->
+                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src="https://peppyflora.com/wp-content/uploads/2021/04/Leaf-Mold-Compost-3x4-Product-Peppyflora-01-Moz.jpg" alt="Leaf Compost" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded">Limited</span>
+                            <span class="text-gray-500">⭐ 4.7 (145)</span>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2">Leaf Mulch Compost</h3>
+                        <p class="text-gray-600 text-sm mb-4">Perfect for moisture retention and soil health 🍂</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xl font-bold text-green-700">₹249</span>
+                            <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-50 border-t border-gray-200 mt-12">
+        <div class="max-w-screen-xl mx-auto px-4 py-8">
+            <div class="text-center">
+                <p class="text-gray-600">© 2025 EcoGrow Compost Shop. All rights reserved. 🌱</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Add to cart animation
+        document.querySelectorAll('.product-card button').forEach(button => {
+            button.addEventListener('click', function() {
+                this.innerHTML = '✓ Added';
+                this.classList.add('bg-green-700');
+                setTimeout(() => {
+                    this.innerHTML = 'Add to Cart';
+                    this.classList.remove('bg-green-700');
+                }, 1000);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <title>Recipe Recommender</title>
+    <style>
+        :root {
+            --primary: #FF7052;
+            --background: #F8F8F8;
+            --card: #FFFFFF;
+            --text-primary: #2D2D2D;
+            --text-secondary: #707070;
+            --accent: #FFE8E3;
+            --border: #EEEEEE;
+            --radius: 1rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background-color: var(--card);
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .container {
+            background-color: var(--card);
+            border-radius: var(--radius);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 500px;
+            overflow: hidden;
+        }
+
+        .search-section {
+            padding: 2rem;
+        }
+
+        .description {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .category-section {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding: 0.5rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .category-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            min-width: 80px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .category-item:hover {
+            background-color: var(--accent);
+        }
+
+        .category-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        .category-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 1px solid var(--border);
+            border-radius: 2rem;
+            font-size: 1rem;
+            background-color: var(--background);
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--accent);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        .submit-btn {
+            display: inline-block;
+            width: 100%;
+            padding: 1rem 2rem;
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(255, 112, 82, 0.2);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 112, 82, 0.3);
+        }
+
+        @media (max-width: 640px) {
+            .main-content {
+                padding: 1rem;
+            }
+
+            .search-section {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header" style="flex-direction: row;">
+        <a href="http://localhost:3000/landing/" class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg">
+                <i class="fas fa-arrow-left mr-2"></i> Back
+            </a>
+        <h1>Find Your Recipe</h1>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            
+            <div class="search-section">
+                <p class="description">Enter ingredients you have, and we'll find the perfect recipe for you!</p>
+                
+                <div class="category-section">
+                    <div class="category-item">
+                        <div class="category-icon">🥗</div>
+                        <span class="category-label">Salad</span>
+                    </div>
+                    <div class="category-item">
+                        <div class="category-icon">🍕</div>
+                        <span class="category-label">Pizza</span>
+                    </div>
+                    <div class="category-item">
+                        <div class="category-icon">🍔</div>
+                        <span class="category-label">Burger</span>
+                    </div>
+                    <div class="category-item">
+                        <div class="category-icon">🍜</div>
+                        <span class="category-label">Noodles</span>
+                    </div>
+                    <div class="category-item">
+                        <div class="category-icon">🥘</div>
+                        <span class="category-label">Main</span>
+                    </div>
+                </div>
+
+                <form action="/recommend" method="post">
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input 
+                            type="text" 
+                            id="ingredients" 
+                            name="ingredients" 
+                            placeholder="Enter ingredients (e.g., tomatoes, pasta)" 
+                            required
+                        >
+                    </div>
+                    <button type="submit" class="submit-btn">Find Recipes</button>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
